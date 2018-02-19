@@ -1,10 +1,25 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Maistas i namus</title>
+    <script src="{% static "maistas.js" %}"></script>
 </head>
 <body>
-
+    {% if user.is_authenticated %}
+        <a href="/accounts/logout/">Log out</a>
+    {% else %}
+        <b>You have to
+            <a href="/accounts/login/">log in</a> or
+            <a href="/accounts/signup/">sign up</a> to continue</b> <br>
+    {% endif %}
+    <h2>Užsakymas</h2>
+    <select>
+        {% for food in food_types %}
+            <option value="{{ food.id }}">{{ food.food_name }}</option>
+        {% endfor %}
+    </select>
 </body>
 </html>

@@ -15,12 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from maistas.views import index, signIn, signUp
+from maistas.views import home
+from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
-    path('index.html', index),
-    path('login.html', signIn),
-    path('register.html', signUp),
+    url(r'^accounts/', include('allauth.urls')),
+    path('', home, name="home"),
 ]
