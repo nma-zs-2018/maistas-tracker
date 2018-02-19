@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from maistas.models import Food
+from maistas.models import Food, Order
 
 
 def home(request):
     food_types = Food.objects.all()
 
     return render(request, 'index.html', context={'food_types': food_types})
+
+def order(request):
+    if request.user.is_authenticated:
+        # Check if user already has any orders
+        if len(Order.objects.filter(deliver_to=request.user)) == 0:
+
+            return render(request, 'success.html')
+        else:
+            return render(request, 'fail.html')
+
+    else:
+        return redirect(home, permanent=True)
 
 # def index(request):
 #     if request.user.is_authenticated:

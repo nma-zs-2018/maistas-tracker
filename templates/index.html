@@ -8,20 +8,25 @@
     <script src="{% static "maistas.js" %}"></script>
 </head>
 <body>
-    {% if user.is_authenticated %}
-        <a href="/accounts/logout/">Log out</a>
-    {% else %}
-        <b>You have to
-            <a href="/accounts/login/">log in</a> or
-            <a href="/accounts/signup/">sign up</a> to continue</b> <br>
-    {% endif %}
-    <h2>Užsakymas</h2>
-    <select>
-        {% for food in food_types %}
-            <div>
-                {{ food.food_name }}
-            </div>
-            <option value="{{ food.id }}">{{ food.food_name }}</option>
-        {% endfor %}
-    </select>
+{% if user.is_authenticated %}
+    <a href="/accounts/logout/">Log out</a>
+{% else %}
+    <b>You have to
+        <a href="/accounts/login/">log in</a> or
+        <a href="/accounts/signup/">sign up</a> to continue</b> <br>
+{% endif %}
+<h2>Užsakymas</h2>
+<form action="order" method="post">
+    <div>
+        <table>
+            {% for food in food_types %}
+                <tr>
+                    <th>{{ food.food_name }}</th>
+                    <th><input type="number" name="{{ food.id }}_quantity" min="0" max="100" value="0"></th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <input type="submit">
+</form>
 </body>
