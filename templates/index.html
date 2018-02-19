@@ -18,8 +18,10 @@
     <h2>Užsakymas</h2>
     <select>
         {% for food in food_types %}
+            <div>
+                {{ food.food_name }}
+            </div>
             <option value="{{ food.id }}">{{ food.food_name }}</option>
         {% endfor %}
     </select>
 </body>
-</html>
