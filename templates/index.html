@@ -3,30 +3,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% csrf_token %}
     <meta charset="UTF-8">
     <title>Maistas i namus</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{% static "maistas.js" %}"></script>
 </head>
 <body>
-{% if user.is_authenticated %}
-    <a href="/accounts/logout/">Log out</a>
-{% else %}
-    <b>You have to
-        <a href="/accounts/login/">log in</a> or
-        <a href="/accounts/signup/">sign up</a> to continue</b> <br>
+
+Logged in as
+{% if is_deliverer %}
+    a deliverer
 {% endif %}
-<h2>Užsakymas</h2>
-<form action="order" method="post">
-    <div>
-        <table>
-            {% for food in food_types %}
-                <tr>
-                    <th>{{ food.food_name }}</th>
-                    <th><input type="number" name="{{ food.id }}_quantity" min="0" max="100" value="0"></th>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <input type="submit">
-</form>
+{{ user.get_username }}
+
+<a href="/accounts/logout/">Log out</a>
+
+    <h2>
+        {% if has_order %}
+            {% if order_waiting %}
+                Order waiting
+            {% else %}
+                Order is on the way
+            {% endif %}
+        {% else %}
+            Order food
+        {% endif %}
+    </h2>
+
+{% if not has_order %}
+<div id="orderForm">
+    <table>
+        {% for food in food_types %}
+            <tr>
+                <th>{{ food.food_name }}</th>
+                <th><input type="number" name="{{ food.id }}" min="0" max="100" value="0" id="quantityBox"></th>
+            </tr>
+        {% endfor %}
+    </table>
+    <button onclick="orderButton()">Order</button>
+</div>
+{% else %}
+    <a href="/cancelorder/">Cancel order</a>
+{% endif %}
 </body>

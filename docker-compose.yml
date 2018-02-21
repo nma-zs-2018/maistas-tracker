@@ -1,6 +1,17 @@
 version: '3'
 
 services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./maistas/static:/code/static
+      - ./maistas/media:/code/media
+    depends_on:
+      - web
   web:
     build: .
     volumes:

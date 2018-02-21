@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     path('', home, name="home"),
+    path('home/', home),
+    path(cancel)
 
-    path('order', order)
+    path('order/', order)
 ]
